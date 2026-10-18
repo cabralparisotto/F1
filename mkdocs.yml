@@ -1,0 +1,43 @@
+site_name: F1 — OpenF1
+site_description: Biblioteca Python para consultar dados históricos da OpenF1
+docs_dir: docs
+site_dir: site
+strict: true
+
+theme:
+  name: material
+  language: pt
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+
+nav:
+  - Visão geral: index.md
+  - Instalação: installation.md
+  - Arquitetura e camadas: architecture.md
+  - Desenvolvimento: development.md
+  - Uso: usage.md
+  - Testes: testing.md
+  - Próximos passos: roadmap.md
+  - Contribuição: contributing.md
+  - Referência técnica:
+      - API Python: api/index.md
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+
+validation:
+  links:
+    absolute_links: warn
+    anchors: warn
+    unrecognized_links: warn
