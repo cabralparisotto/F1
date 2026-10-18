@@ -23,8 +23,9 @@ jobs:
       - name: Install Poetry
         run: |
           pipx install poetry==2.5.1
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-          poetry --version
+          pipx_bin_dir="$(pipx environment --value PIPX_BIN_DIR)"
+          echo "$pipx_bin_dir" >> "$GITHUB_PATH"
+          "$pipx_bin_dir/poetry" --version
       - name: Install project
         run: poetry install --no-interaction
       - name: Lint
