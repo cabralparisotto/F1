@@ -12,6 +12,42 @@ poetry env info
 
 Não instale dependências do projeto com `pip` nem globalmente. Ao alterar
 dependências, atualize `pyproject.toml` com Poetry e versione `poetry.lock`.
+Para ativar os hooks de pre-commit no clone local, execute uma vez:
+
+```bash
+poetry install
+poetry run pre-commit install
+```
+
+O pre-commit fornece feedback rápido localmente e não substitui o GitHub
+Actions. O hook `ruff-check` corrige lint e imports automaticamente (`--fix`),
+e `ruff-format` também pode modificar arquivos. Se algum hook fizer alterações,
+revise-as e adicione os arquivos novamente com `git add` antes de commitar.
+Os hooks de Pytest são manuais para manter o fluxo normal de commit rápido; o CI
+continua executando os testes unitários e a cobertura mínima de 50%.
+
+Para executar os hooks em todos os arquivos:
+
+```bash
+poetry run pre-commit run --all-files
+```
+
+Para executar validações específicas ou os testes sob demanda:
+
+```bash
+poetry run pre-commit run ruff-check --all-files
+poetry run pre-commit run ruff-format --all-files
+poetry run pre-commit run --hook-stage manual pytest --all-files
+```
+
+Para atualizar as versões fixadas dos hooks, remover o hook deste clone ou
+limpar os ambientes em cache do pre-commit:
+
+```bash
+poetry run pre-commit autoupdate
+poetry run pre-commit uninstall
+poetry run pre-commit clean
+```
 
 ## Iniciar a documentação
 
@@ -54,6 +90,10 @@ As regras de lint, formatação, pytest e cobertura ficam centralizadas em
 Testes unitários devem isolar as chamadas externas e usar respostas sintéticas.
 `task dashboard` é um atalho para iniciar a interface Streamlit; a dashboard
 permite consultar meetings, sessões, pilotos e voltas da OpenF1 por temporada.
+
+O GitHub Actions executa lint, verificação de formatação, testes com cobertura e
+build estrito da documentação em cada push e pull request. Também é possível
+iniciar a pipeline manualmente pela aba Actions do GitHub.
 
 ## Convenções
 
