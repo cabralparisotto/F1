@@ -1,7 +1,44 @@
 repos:
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.17.1
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
     hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-toml
+      - id: check-merge-conflict
+      - id: check-added-large-files
+      - id: detect-private-key
+
+  - repo: local
+    hooks:
+      - id: check-sensitive-files
+        name: Block sensitive files
+        entry: Do not commit .env, credential, secret, or private-key files.
+        language: fail
+        types: [file]
+        files: >-
+          (?i)(^|/)(?:\.env(?:\.(?!(?:example|sample|template)$)[^/]+)?|credentials?(?:\.[^/]+)?|secrets?(?:\.[^/]+)?|id_(?:rsa|ed25519)|[^/]+\.(?:pem|key))$
+
       - id: ruff-check
+        name: Ruff check
+        entry: poetry run ruff check
         args: [--fix]
+        language: system
+        types: [python]
+        files: ^(src|tests)/.*\.py$
+
       - id: ruff-format
+        name: Ruff format
+        entry: poetry run ruff format
+        language: system
+        types: [python]
+        files: ^(src|tests)/.*\.py$
+
+      - id: pytest
+        name: Pytest unit tests
+        entry: poetry run pytest tests/unit
+        language: system
+        pass_filenames: false
+        stages: [manual]
